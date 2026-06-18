@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>BMO Music Player</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <button class="theme-switcher-btn" id="theme-switcher-btn" title="Switch Theme"></button>
+  <div class="music-image">
+    <div class="face-container">
+      <svg width="129" height="75" viewBox="0 0 129 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse class="eye" cx="6" cy="14" rx="6" ry="14" fill="#020202" />
+        <ellipse class="eye" cx="123" cy="14" rx="6" ry="14" fill="#020202" />
+        <path
+          d="M48 57C48 57 51.0401 62.9862 54 66C57.5678 69.6328 60.0944 71.6355 65 73C69.5149 74.2558 72.6952 74.852 77 73C80.6803 71.4167 81.9618 69.0999 84.5 66C87.1095 62.813 88.3543 60.776 90 57"
+          stroke="black" />
+      </svg>
+      <div class="select-text">Select a Song</div>
+    </div>
+    <div class="music-title-container">
+      <svg width="100%" height="100%" viewBox="0 0 290 44" preserveAspectRatio="none" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0H290V39C290 41.7614 287.761 44 285 44H4.99999C2.23857 44 0 41.7614 0 39V0Z" fill="#E4E4E4" />
+      </svg>
+      <span class="title-text"></span>
+    </div>
+  </div>
+  <div class="time-display">
+    <span id="current-time">0:00</span>
+    <span id="duration-time">0:00</span>
+  </div>
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-handle">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="13" cy="13" r="13" fill="#FDD05D" />
+        </svg>
+      </div>
+    </div>
+    <button class="minimize-btn" id="minimize-btn" title="Minimize">
+      <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+        <circle cx="10.5" cy="10.5" r="10.5" fill="#7097CE" />
+        <line x1="5" y1="11.25" x2="16" y2="11.25" stroke="#4D6381" stroke-width="1.5" />
+      </svg>
+    </button>
+    <button class="close-btn" id="close-btn" title="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+        <circle cx="10.5" cy="10.5" r="10.5" fill="#D46A67" />
+        <line y1="-0.75" x2="11.3846" y2="-0.75" transform="matrix(0.711485 0.702701 -0.711485 0.702701 6 7)"
+          stroke="#994B48" stroke-width="1.5" />
+        <line y1="-0.75" x2="11.3846" y2="-0.75" transform="matrix(-0.711485 0.702701 0.711485 0.702701 15 7)"
+          stroke="#994B48" stroke-width="1.5" />
+      </svg>
+    </button>
+  </div>
+  <div class="bottom-controls">
+    <div class="d-pad-container">
+      <!-- Top: Play Button -->
+      <button class="play-btn d-pad-btn play-position" id="play-btn" title="Play">
+        <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="33" height="34.2222" fill="#FDD05D" />
+          <path
+            d="M23.2864 18.696C24.5397 17.9127 24.5397 16.0873 23.2864 15.304L13.06 8.9125C11.7279 8.07994 10 9.03762 10 10.6085V23.3915C10 24.9624 11.7279 25.9201 13.06 25.0875L23.2864 18.696Z"
+            fill="#EABB41" />
+        </svg>
+      </button>
+
+      <!-- Left: Previous Button -->
+      <button class="previous-btn d-pad-btn previous-position" id="previous-btn" title="Previous Track">
+        <svg width="36" height="33" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="36" width="33" height="36" transform="rotate(90 36 0)" fill="#FDD05D" />
+          <path
+            d="M15.8592 18.107C15.3329 17.7068 15.3329 16.9153 15.8592 16.5151L23.5197 10.6893C24.178 10.1886 25.125 10.6581 25.125 11.4853V23.1368C25.125 23.9639 24.178 24.4335 23.5197 23.9328L15.8592 18.107Z"
+            fill="#EABB41" />
+          <path
+            d="M8.6404 18.107C8.11418 17.7068 8.11418 16.9153 8.6404 16.5151L16.3009 10.6893C16.9593 10.1886 17.9062 10.6581 17.9062 11.4853V23.1368C17.9062 23.9639 16.9593 24.4335 16.3009 23.9328L8.6404 18.107Z"
+            fill="#EABB41" />
+        </svg>
+      </button>
+
+      <!-- Center: Placeholder Button -->
+      <button class="placeholder-btn d-pad-btn center-position" id="placeholder-btn">
+        <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="33" height="34.2222" fill="#FDD05D" />
+        </svg>
+      </button>
+
+      <!-- Right: Next Button -->
+      <button class="next-btn d-pad-btn next-position" id="next-btn" title="Next Track">
+        <svg width="36" height="33" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="36" width="33" height="36" transform="rotate(90 36 0)" fill="#FDD05D" />
+          <path
+            d="M20.0919 17.7767C20.6354 17.3771 20.6354 16.5651 20.0919 16.1655L12.4674 10.5588C11.807 10.0731 10.875 10.5447 10.875 11.3644V22.5778C10.875 23.3975 11.807 23.869 12.4674 23.3834L20.0919 17.7767Z"
+            fill="#EABB41" />
+          <path
+            d="M27.3107 17.7767C27.8541 17.3771 27.8541 16.5651 27.3107 16.1655L19.6862 10.5588C19.0258 10.0731 18.0938 10.5447 18.0938 11.3644V22.5778C18.0938 23.3975 19.0258 23.869 19.6862 23.3834L27.3107 17.7767Z"
+            fill="#EABB41" />
+        </svg>
+      </button>
+
+      <!-- Bottom: Pause Button -->
+      <button class="pause-btn d-pad-btn pause-position" id="pause-btn" title="Pause">
+        <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="33" height="34.2222" fill="#FDD05D" />
+          <rect x="8.83337" y="7.65278" width="5.75" height="17.25" rx="2" fill="#EABB41" />
+          <rect x="18.4166" y="7.65278" width="5.75" height="17.25" rx="2" fill="#EABB41" />
+        </svg>
+      </button>
+    </div>
+    <button class="repeat-btn" id="repeat-btn" title="Toggle Repeat">
+      <svg width="54" height="56" viewBox="0 0 54 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_18_132)">
+          <path d="M27 1.3L50.3827 41.8H3.61731L27 1.3Z" fill="#74C3EE" />
+          <path
+            d="M34.8515 23.2614C35.4782 22.8697 35.4782 21.9571 34.8515 21.5654L31.405 19.4113C30.739 18.995 29.875 19.4739 29.875 20.2593V24.5675C29.875 25.3529 30.739 25.8318 31.405 25.4155L34.8515 23.2614Z"
+            fill="#70AED0" />
+          <path
+            d="M20.2382 33.5531C19.6115 33.1614 19.6115 32.2487 20.2382 31.8571L23.6847 29.703C24.3508 29.2867 25.2147 29.7656 25.2147 30.551V34.8592C25.2147 35.6446 24.3508 36.1234 23.6847 35.7072L20.2382 33.5531Z"
+            fill="#70AED0" />
+          <path d="M21.1666 27.0083C21.1666 24.385 23.2933 22.2583 25.9166 22.2583H29.875" stroke="#70AED0"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M33.0416 27.8C33.0416 30.4234 30.915 32.55 28.2916 32.55H24.3333" stroke="#70AED0" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <defs>
+          <filter id="filter0_d_18_132" x="0.31731" y="2.38419e-07" width="53.3654" height="47.1"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha" />
+            <feOffset dy="2" />
+            <feGaussianBlur stdDeviation="1.65" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_18_132" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_18_132" result="shape" />
+          </filter>
+        </defs>
+      </svg>
+    </button>
+    <div class="shuffle-mute-container">
+      <button class="shuffle-btn" id="shuffle-btn" title="Toggle Shuffle">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d_18_76)">
+            <circle cx="20.8" cy="18.8" r="17.5" fill="#77D124" />
+            <rect width="20" height="20" transform="translate(11.3 9.3)" fill="#77D124" />
+            <path d="M24.6334 24.3C23.3192 24.3 22.0888 23.7855 21.176 22.9122" stroke="#6CB429" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M17.2623 16.01C16.124 14.9334 14.597 14.3 12.9667 14.3" stroke="#6CB429" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M29.9433 25.3112C30.57 24.9196 30.57 24.0069 29.9433 23.6152L26.1634 21.2528C25.4974 20.8365 24.6334 21.3154 24.6334 22.1008L24.6334 26.8257C24.6334 27.6111 25.4974 28.0899 26.1634 27.6737L29.9433 25.3112Z"
+              fill="#6CB429" />
+            <path
+              d="M24.6333 14.3C22.6148 14.3 20.7943 15.5137 20.018 17.3769L18.7359 20.4539C17.7655 22.7829 15.4898 24.3 12.9667 24.3"
+              stroke="#6CB429" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M29.1099 15.3112C29.7366 14.9196 29.7366 14.0069 29.1099 13.6152L25.33 11.2528C24.664 10.8365 23.8 11.3154 23.8 12.1008L23.8 16.8257C23.8 17.6111 24.664 18.0899 25.33 17.6737L29.1099 15.3112Z"
+              fill="#6CB429" />
+          </g>
+          <defs>
+            <filter id="filter0_d_18_76" x="4.88758e-05" y="3.09944e-06" width="41.6" height="41.6"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha" />
+              <feOffset dy="2" />
+              <feGaussianBlur stdDeviation="1.65" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_18_76" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_18_76" result="shape" />
+            </filter>
+          </defs>
+        </svg>
+      </button>
+      <button class="mute-btn" id="mute-btn" title="Toggle Mute">
+        <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#filter0_d_18_84)">
+            <circle cx="21.3" cy="19.3" r="18" fill="#E96E48" />
+          </g>
+          <path
+            d="M25.7999 26.3564C25.7999 27.1698 24.8807 27.6435 24.2189 27.1709L19.7277 23.9619L25.7999 19.2402V26.3564ZM24.2189 11.4297C24.8807 10.9569 25.7999 11.4298 25.7999 12.2432V16.96L17.006 23.7998H17.0001C15.8956 23.7998 15.0001 22.9044 15.0001 21.7998V16.7998C15.0002 15.6953 15.8956 14.7998 17.0001 14.7998H19.5001L24.2189 11.4297Z"
+            fill="#D75229" />
+          <path d="M29.4001 13L13.2001 25.6" stroke="#D75229" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <defs>
+            <filter id="filter0_d_18_84" x="4.88758e-05" y="3.09944e-06" width="42.6" height="42.6"
+              filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                result="hardAlpha" />
+              <feOffset dy="2" />
+              <feGaussianBlur stdDeviation="1.65" />
+              <feComposite in2="hardAlpha" operator="out" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.11 0" />
+              <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_18_84" />
+              <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_18_84" result="shape" />
+            </filter>
+          </defs>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <button class="volume-up" id="volume-up" title="Volume Up">
+    <svg width="54" height="14" viewBox="0 0 54 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="54" height="14" rx="5" fill="#888888" />
+      <path
+        d="M14.5167 8.128L14.9007 6.256L15.1727 5.032L16.0447 5.12L14.8527 9.136H14.1007L13.0687 5.184L13.9647 5.032L14.5167 8.128ZM19.435 6.984C19.435 7.256 19.4084 7.51733 19.355 7.768C19.3017 8.01333 19.2137 8.232 19.091 8.424C18.9737 8.61067 18.8137 8.76 18.611 8.872C18.4137 8.97867 18.1657 9.032 17.867 9.032C17.5737 9.032 17.331 8.96533 17.139 8.832C16.9524 8.69333 16.8057 8.52 16.699 8.312C16.5924 8.104 16.5177 7.87733 16.475 7.632C16.4324 7.38667 16.411 7.15467 16.411 6.936C16.411 6.71733 16.435 6.49333 16.483 6.264C16.531 6.02933 16.611 5.816 16.723 5.624C16.835 5.42667 16.9844 5.26667 17.171 5.144C17.3577 5.016 17.5897 4.952 17.867 4.952C18.1444 4.952 18.3817 5.008 18.579 5.12C18.7764 5.22667 18.939 5.37333 19.067 5.56C19.195 5.74667 19.2884 5.96267 19.347 6.208C19.4057 6.45333 19.435 6.712 19.435 6.984ZM17.851 5.648C17.7497 5.648 17.6564 5.68533 17.571 5.76C17.491 5.82933 17.4244 5.92533 17.371 6.048C17.3177 6.17067 17.275 6.31733 17.243 6.488C17.2164 6.65333 17.203 6.82933 17.203 7.016C17.203 7.20267 17.2217 7.37867 17.259 7.544C17.2964 7.704 17.3497 7.84533 17.419 7.968C17.4884 8.09067 17.571 8.18933 17.667 8.264C17.763 8.33333 17.8697 8.368 17.987 8.368C18.0777 8.368 18.163 8.33067 18.243 8.256C18.323 8.176 18.3924 8.072 18.451 7.944C18.515 7.816 18.5657 7.672 18.603 7.512C18.6404 7.34667 18.659 7.17867 18.659 7.008C18.659 6.83733 18.6457 6.672 18.619 6.512C18.5924 6.34667 18.547 6.2 18.483 6.072C18.419 5.944 18.3364 5.84267 18.235 5.768C18.1337 5.688 18.0057 5.648 17.851 5.648ZM21.4275 9L20.2995 9.032L20.2915 4.064L21.1475 4.04L21.1635 8.224L21.5235 8.264L21.4275 9ZM23.7772 8.992V8.752C23.7026 8.82667 23.6119 8.896 23.5052 8.96C23.4039 9.024 23.2786 9.056 23.1292 9.056C22.9959 9.056 22.8706 9.024 22.7532 8.96C22.6412 8.896 22.5426 8.79467 22.4572 8.656C22.3719 8.512 22.3052 8.328 22.2572 8.104C22.2092 7.87467 22.1852 7.59467 22.1852 7.264V5L23.0092 5.056L22.9692 7.12C22.9692 7.584 23.0066 7.92 23.0812 8.128C23.1612 8.336 23.2599 8.44 23.3772 8.44C23.4466 8.44 23.5159 8.41333 23.5852 8.36C23.6546 8.30133 23.7186 8.23733 23.5852 8.36C23.6546 8.30133 23.7186 8.23733 23.7772 8.168L23.7852 5.12L24.5852 5.056V8.992H23.7772ZM26.317 5.064V5.328C26.3703 5.25333 26.4396 5.18133 26.525 5.112C26.6156 5.03733 26.741 5 26.901 5C27.2263 5 27.469 5.17333 27.629 5.52C27.6663 5.46667 27.7116 5.41067 27.765 5.352C27.8183 5.288 27.877 5.232 27.941 5.184C28.0103 5.13067 28.085 5.088 28.165 5.056C28.2503 5.01867 28.3436 5 28.445 5C28.733 5 28.9543 5.15467 29.109 5.464C29.269 5.77333 29.349 6.216 29.349 6.792V9.056L28.525 9L28.565 6.936C28.565 6.51467 28.5303 6.18933 28.461 5.96C28.3916 5.73067 28.293 5.616 28.165 5.616C28.0743 5.616 27.9996 5.66133 27.941 5.752C27.8823 5.84267 27.829 5.93333 27.781 6.024C27.8023 6.136 27.8183 6.256 27.829 6.384C27.8396 6.512 27.845 6.648 27.845 6.792V9.056L27.021 9L27.061 6.936C27.061 6.52 27.0236 6.19733 26.949 5.968C26.8796 5.73333 26.781 5.616 26.653 5.616C26.5783 5.616 26.5143 5.648 26.461 5.712C26.4076 5.77067 26.3596 5.83733 26.317 5.912L26.309 8.936L25.509 9V5.064H26.317ZM32.6622 7.6C32.6782 7.68533 32.6862 7.776 32.6862 7.872C32.6862 8.04267 32.6542 8.20533 32.5902 8.36C32.5316 8.50933 32.4462 8.64 32.3342 8.752C32.2276 8.864 32.0996 8.952 31.9502 9.016C31.8009 9.08533 31.6356 9.12 31.4542 9.12C31.0382 9.12 30.7209 8.94933 30.5022 8.608C30.2889 8.26667 30.1822 7.768 30.1822 7.112C30.1822 6.44 30.2942 5.912 30.5182 5.528C30.7476 5.144 31.0622 4.952 31.4622 4.952C31.6222 4.952 31.7716 4.992 31.9102 5.072C32.0542 5.14667 32.1769 5.25333 32.2782 5.392C32.3849 5.53067 32.4676 5.696 32.5262 5.888C32.5902 6.07467 32.6222 6.28267 32.6222 6.512L32.6302 6.888L30.9982 7.216C30.9982 7.58933 31.0516 7.89333 31.1582 8.128C31.2649 8.35733 31.3902 8.472 31.5342 8.472C31.6249 8.472 31.6996 8.448 31.7582 8.4C31.8169 8.352 31.8622 8.29333 31.8942 8.224C31.9262 8.14933 31.9476 8.06933 31.9582 7.984C31.9742 7.89333 31.9822 7.808 31.9822 7.728C31.9822 7.71733 31.9822 7.704 31.9822 7.688C31.9822 7.65067 31.9796 7.62133 31.9742 7.6H32.6622ZM31.9502 6.432C31.9502 6.21333 31.9049 6.03467 31.8142 5.896C31.7236 5.752 31.6249 5.68 31.5182 5.68C31.4222 5.68 31.3422 5.70933 31.2782 5.768C31.2196 5.82133 31.1689 5.896 31.1262 5.992C31.0889 6.08267 31.0596 6.184 31.0382 6.296C31.0222 6.408 31.0116 6.52 31.0062 6.632L31.9502 6.432ZM37.5175 8.992V8.752C37.4429 8.82667 37.3522 8.896 37.3255 8.36C37.3949 8.30133 37.4589 8.23733 37.5175 8.168L37.5255 5.12L38.3255 5.056V8.992H37.5175ZM39.3613 5.056L40.5133 5.04C40.6893 5.04 40.8573 5.08267 41.0173 5.168C41.1773 5.248 41.3159 5.368 41.4333 5.528C41.5506 5.688 41.6439 5.888 41.7133 6.128C41.7826 6.36267 41.8173 6.632 41.8173 6.936C41.8173 7.21333 41.7879 7.47733 41.7293 7.728C41.6706 7.97333 41.5853 8.18933 41.4733 8.376C41.3613 8.56267 41.2253 8.712 41.0653 8.824C40.9106 8.93067 40.7373 8.984C40.5453 8.984C40.4013 8.984 40.2733 8.96267 40.1613 8.92L40.1693 9.952H39.3613V5.056ZM40.1613 8.328C40.2413 8.35467 40.3106 8.368 40.3693 8.368C40.4599 8.368 40.5453 8.32 40.6253 8.224C40.7053 8.128 40.7746 8.00533 40.8333 7.856C40.8973 7.70133 40.9453 7.53067 40.9773 7.344C41.0146 7.15733 41.0333 6.97333 41.0333 6.792C41.0333 6.38667 40.9559 6.10667 40.8013 5.952C40.6519 5.79733 40.4333 5.73333 40.1453 5.76L40.1613 8.328Z"
+        fill="#e0e0e0" />
+    </svg>
+  </button>
+  <button class="volume-down" id="volume-down" title="Volume Down">
+    <svg width="54" height="14" viewBox="0 0 54 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="54" height="14" rx="5" fill="#888888" />
+      <path
+        d="M9.98588 8.128L10.3699 6.256L10.6419 5.032L11.5139 5.12L10.3219 9.136H9.56988L8.53788 5.184L9.43388 5.032L9.98588 8.128ZM14.9043 6.984C14.9043 7.256 14.8776 7.51733 14.8243 7.768C14.7709 8.01333 14.6829 8.232 14.5603 8.424C14.4429 8.61067 14.2829 8.76 14.0803 8.872C13.8829 8.97867 13.6349 9.032 13.3363 9.032C13.0429 9.032 12.8003 8.96533 12.6083 8.832C12.4216 8.69333 12.2749 8.52 12.1683 8.312C12.0616 8.104 11.9869 7.87733 11.9443 7.632C11.9016 7.38667 11.8803 7.15467 11.8803 6.936C11.8803 6.71733 11.9043 6.49333 11.9523 6.264C12.0003 6.02933 12.0803 5.816 12.1923 5.624C12.3043 5.42667 12.4536 5.26667 12.6403 5.144C12.8269 5.016 13.0589 4.952 13.3363 4.952C13.6136 4.952 13.8509 5.008 14.0483 5.12C14.2456 5.22667 14.4083 5.37333 14.5363 5.56C14.6643 5.74667 14.7576 5.96267 14.8163 6.208C14.8749 6.45333 14.9043 6.712 14.9043 6.984ZM13.3203 5.648C13.2189 5.648 13.1256 5.68533 13.0403 5.76C12.9603 5.82933 12.8936 5.92533 12.8403 6.048C12.7869 6.17067 12.7443 6.31733 12.7123 6.488C12.6856 6.65333 12.6723 6.82933 12.6723 7.016C12.6723 7.20267 12.6909 7.37867 12.7283 7.544C12.7656 7.704 12.8189 7.84533 12.8883 7.968C12.9576 8.09067 13.0403 8.18933 13.1363 8.264C13.2323 8.33333 13.3389 8.368 13.4563 8.368C13.5469 8.368 13.6323 8.33067 13.7123 8.256C13.7923 8.176 13.8616 8.072 13.9203 7.944C13.9843 7.816 14.0349 7.672 14.0723 7.512C14.1096 7.34667 14.1283 7.17867 14.1283 7.008C14.1283 6.83733 14.1149 6.672 14.0883 6.512C14.0616 6.34667 14.0163 6.2 13.9523 6.072C13.8883 5.944 13.8056 5.84267 13.7043 5.768C13.6029 5.688 13.4749 5.648 13.3203 5.648ZM16.8968 9L15.7688 9.032L15.7608 4.064L16.6168 4.04L16.6328 8.224L16.9928 8.264L16.8968 9ZM19.2464 8.992V8.752C19.1718 8.82667 19.0811 8.896 19.2464 8.168L19.2544 5.12L20.0544 5.056V8.992H19.2464ZM21.7862 5.064V5.328C21.8395 5.25333 21.9089 5.18133 21.9942 5.112C22.0849 5.03733 22.2102 5 22.3702 5C22.6955 5 22.9382 5.17333 23.0982 5.52C23.1355 5.46667 23.1809 5.41067 23.2342 5.352C23.2875 5.288 23.3462 5.232 23.4102 5.184C23.4795 5.13067 23.5542 5.088 23.6342 5.056C23.7195 5.01867 23.8129 5 23.9142 5C24.2022 5 24.4235 5.15467 24.5782 5.464C24.7382 5.77333 24.8182 6.216 24.8182 6.792V9.056L23.9942 9L24.0342 6.936C24.0342 6.51467 23.9995 6.18933 23.9302 5.96C23.8609 5.73067 23.7622 5.616 23.6342 5.616C23.5435 5.616 23.4689 5.66133 23.4102 5.752C23.3515 5.84267 23.2982 5.93333 23.2502 6.024C23.2715 6.136 23.2875 6.256 23.2982 6.384C23.3089 6.512 23.3142 6.648 23.3142 6.792V9.056L22.4902 9L22.5302 6.936C22.5302 6.52 22.4929 6.19733 22.4182 5.968C22.3489 5.73333 22.2502 5.616 22.1222 5.616C22.0475 5.616 21.9835 5.648 21.9302 5.712C21.8769 5.77067 21.8289 5.83733 21.7862 5.912L21.7782 8.936L20.9782 9V5.064H21.7862ZM28.1314 7.6C28.1474 7.68533 28.1554 7.776 28.1554 7.872C28.1554 8.04267 28.1234 8.20533 28.0594 8.36C28.0008 8.50933 27.9154 8.64 27.8034 8.752C27.6968 8.864 27.5688 8.952 27.4194 9.016C27.2701 9.08533 27.1048 9.12 26.9234 9.12C26.5074 9.12 26.1901 8.94933 25.9714 8.608C25.7581 8.26667 25.6514 7.768 25.6514 7.112C25.6514 6.44 25.7634 5.912 25.9874 5.528C26.2168 5.144 26.5314 4.952 26.9314 4.952C27.0914 4.952 27.2408 4.992 27.3794 5.072C27.5234 5.14667 27.6461 5.25333 27.7474 5.392C27.8541 5.53067 27.9368 5.696 27.9954 5.888C28.0594 6.07467 28.0914 6.28267 28.0914 6.512L28.0994 6.888L26.4674 7.216C26.4674 7.58933 26.5208 7.89333 26.6274 8.128C26.7341 8.35733 26.8594 8.472 27.0034 8.472C27.0941 8.472 27.1688 8.448 27.2274 8.4C27.2861 8.352 27.3314 8.29333 27.3634 8.224C27.3954 8.14933 27.4168 8.06933 27.4274 7.984C27.4434 7.89333 27.4514 7.808 27.4514 7.728C27.4514 7.71733 27.4514 7.704 27.4514 7.688C27.4514 7.65067 27.4488 7.62133 27.4434 7.6H28.1314ZM27.4194 6.432C27.4194 6.21333 27.3741 6.03467 27.2834 5.896C27.1928 5.752 27.0941 5.68 26.9874 5.68C26.8914 5.68 26.8114 5.70933 26.7474 5.768C26.6888 5.82133 26.6381 5.896 26.5954 5.992C26.5581 6.08267 26.5288 6.184 26.5074 6.296C26.4914 6.408 26.4808 6.52 26.4754 6.632L27.4194 6.432ZM33.7628 9L32.6108 8.944C32.4348 8.93333 32.2668 8.888 32.1068 8.808C31.9468 8.72267 31.8081 8.60267 31.6908 8.448C31.5734 8.288 31.4801 8.09067 31.4108 7.856C31.3414 7.62133 31.3068 7.352 31.3068 7.048C31.3068 6.77067 31.3361 6.50933 31.3948 6.264C31.4534 6.01333 31.5388 5.79467 31.6508 5.608C31.7628 5.42133 31.8961 5.27467 32.0508 5.168C32.2108 5.056 32.3868 5 32.5788 5C32.7228 5 32.8508 5.02133 32.9628 5.064L32.9548 4.032H33.7628V9ZM32.9628 5.656C32.8828 5.62933 32.8134 5.616 32.7548 5.616C32.6641 5.616 32.5788 5.664 32.4988 5.76C32.4188 5.856 32.3468 5.98133 32.2828 6.136C32.2241 6.28533 32.1761 6.45333 32.1388 6.64C32.1068 6.82667 32.0908 7.01067 32.0908 7.192C32.0908 7.59733 32.1734 7.89333 32.3388 8.08C32.5094 8.26667 32.7228 8.368 32.9788 8.384L32.9628 5.656ZM37.6158 6.984C37.6158 7.256 37.5891 7.51733 37.5358 7.768C37.4825 8.01333 37.3945 8.232 37.2718 8.424C37.1545 8.61067 36.9945 8.76 36.7918 8.872C36.5945 8.97867 36.3465 9.032 36.0478 9.032C35.7545 9.032 35.5118 8.96533 35.3198 8.832C35.1331 8.69333 34.9865 8.52 34.8798 8.312C34.7731 8.104 34.6985 7.87733 34.6558 7.632C34.6131 7.38667 34.5918 7.15467 34.5918 6.936C34.5918 6.71733 34.6158 6.49333 34.6638 6.264C34.7118 6.02933 34.7918 5.816 34.9038 5.624C35.0158 5.42667 35.1651 5.26667 35.3518 5.144C35.5385 5.016 35.7705 4.952 36.0478 4.952C36.3251 4.952 36.5625 5.008 36.7598 5.12C36.9571 5.22667 37.1198 5.37333 37.2478 5.56C37.3758 5.74667 37.4691 5.96267 37.5278 6.208C37.5865 6.45333 37.6158 6.712 37.6158 6.984ZM36.0318 5.648C35.9305 5.648 35.8371 5.68533 35.7518 5.76C35.6718 5.82933 35.6051 5.92533 35.5518 6.048C35.4985 6.17067 35.4558 6.31733 35.4238 6.488C35.3971 6.65333 35.3838 6.82933 35.3838 7.016C35.3838 7.20267 35.4025 7.37867 35.4398 7.544C35.4771 7.704 35.5305 7.84533 35.5998 7.968C35.6691 8.09067 35.7518 8.18933 35.8478 8.264C35.9438 8.33333 36.0505 8.368 36.1678 8.368C36.2585 8.368 36.3438 8.33067 36.4238 8.256C36.5038 8.176 36.5731 8.072 36.6318 7.944C36.6958 7.816 36.7465 7.672 36.7838 7.512C36.8211 7.34667 36.8398 7.17867 36.8398 7.008C36.8398 6.83733 36.8265 6.672 36.7998 6.512C36.7731 6.34667 36.7278 6.2 36.6638 6.072C36.5998 5.944 36.5171 5.84267 36.4158 5.768C36.3145 5.688 36.1865 5.648 36.0318 5.648ZM38.9884 5.032L39.3564 7.728L39.7964 5.328L40.4124 5.36L40.7804 7.616L41.2764 5.032L42.0524 5.128L41.1724 8.896L40.5324 9.016L40.2044 7.52L40.0604 6.424L39.9004 7.616L39.5804 8.944L39.0524 9.048L38.6924 7.64L38.1004 5.056L38.9884 5.032ZM43.6193 5.064V5.36C43.6886 5.28 43.7793 5.2 43.8913 5.12C44.0086 5.04 44.1526 5 44.3233 5C44.4566 5 44.5793 5.032 44.6913 5.096C44.8086 5.16 44.91 5.264 44.9953 5.408C45.0806 5.54667 45.1473 5.73067 45.1953 5.96C45.2433 6.184 45.2673 6.46133 45.2673 6.792V9.056L44.4433 9L44.4833 6.936C44.4833 6.472 44.4433 6.136 44.3633 5.928C44.2886 5.72 44.1926 5.616 44.0753 5.616C43.9953 5.616 43.9153 5.65333 43.8353 5.728C43.7553 5.80267 43.6833 5.87733 43.6193 5.952L43.6113 8.936L42.8113 9V5.064H43.6193Z"
+        fill="#e0e0e0" />
+    </svg>
+  </button>
+  <div class="playlist-btn" id="playlist-btn" title="Open Playlist">
+    <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line y1="1" x2="32" y2="1" stroke="#888888" stroke-width="2" />
+      <line x1="9" y1="11" x2="32" y2="11" stroke="#888888" stroke-width="2" />
+      <line y1="21" x2="32" y2="21" stroke="#888888" stroke-width="2" />
+    </svg>
+  </div>
+  <audio id="audio-player"></audio>
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    // --- DOM Elements ---
+    const audio = document.getElementById('audio-player');
+    const musicTitle = document.querySelector('.title-text');
+    const musicTitleContainer = document.querySelector('.music-title-container');
+    const musicImage = document.querySelector('.music-image');
+    const progressBar = document.querySelector('.progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    const progressHandle = document.querySelector('.progress-handle');
+    const currentTimeEl = document.getElementById('current-time');
+    const durationTimeEl = document.getElementById('duration-time');
+
+    // --- Theme Switcher ---
+    const themeColors = [
+      'rgba(177, 215, 204, 0.9)',
+      'rgba(174, 228, 147, 0.9)',
+      'rgba(174, 228, 147, 0.9)',
+      'rgba(253, 240, 128, 0.9)',
+      'rgba(255, 175, 175, 0.9)',
+      'rgba(152, 234, 240, 0.9)',
+      'rgba(177, 204, 238, 0.9)',
+      'rgba(211, 192, 242, 0.9)',
+      'rgba(242, 192, 234, 0.9)',
+      'rgba(246, 200, 176, 0.9)'
+    ];
+
+    function adjustLightness(rgbaStr, lightnessFactor, saturationFactor = 1.0) {
+      const match = rgbaStr.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?/);
+      if (!match) return rgbaStr;
+      let r = parseInt(match[1]) / 255;
+      let g = parseInt(match[2]) / 255;
+      let b = parseInt(match[3]) / 255;
+      const a = match[4] !== undefined ? match[4] : 1;
+
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0; // achromatic
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      l = Math.max(0, Math.min(1, l * lightnessFactor));
+      s = Math.max(0, Math.min(1, s * saturationFactor));
+
+      let r2, g2, b2;
+      if (s === 0) {
+        r2 = g2 = b2 = l; // achromatic
+      } else {
+        const hue2rgb = (p, q, t) => {
+          if (t < 0) t += 1;
+          if (t > 1) t -= 1;
+          if (t < 1/6) return p + (q - p) * 6 * t;
+          if (t < 1/2) return q;
+          if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+          return p;
+        };
+        let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        let p = 2 * l - q;
+        r2 = hue2rgb(p, q, h + 1/3);
+        g2 = hue2rgb(p, q, h);
+        b2 = hue2rgb(p, q, h - 1/3);
+      }
+
+      return `rgba(${Math.round(r2 * 255)}, ${Math.round(g2 * 255)}, ${Math.round(b2 * 255)}, ${a})`;
+    }
+
+    function updateTheme(color) {
+      document.body.style.background = color;
+      const darkColor = adjustLightness(color, 0.78, 1.1);
+      const lightColor = adjustLightness(color, 1.15, 0.9);
+      if (progressBar) progressBar.style.background = lightColor;
+      if (progressFill) progressFill.style.background = darkColor;
+    }
+
+    let savedIndex = localStorage.getItem('selected-theme-index');
+    let currentThemeIndex = 0;
+
+    if (savedIndex !== null) {
+      currentThemeIndex = parseInt(savedIndex);
+      if (currentThemeIndex < 0 || currentThemeIndex >= themeColors.length) {
+        currentThemeIndex = 0;
+      }
+    }
+
+    updateTheme(themeColors[currentThemeIndex]);
+
+    document.getElementById('theme-switcher-btn').addEventListener('click', () => {
+      currentThemeIndex = (currentThemeIndex + 1) % themeColors.length;
+      updateTheme(themeColors[currentThemeIndex]);
+      localStorage.setItem('selected-theme-index', currentThemeIndex);
+    });
+
+    // --- Window controls ---
+    document.getElementById('minimize-btn').addEventListener('click', () => ipcRenderer.send('minimize-window'));
+    document.getElementById('close-btn').addEventListener('click', () => ipcRenderer.send('close-window'));
+
+    let playlist = [];
+    let currentIndex = -1;
+    let isRepeat = false;
+    let isShuffle = false;
+    let isMuted = false;
+    let volume = 1.0;
+
+    // (DOM elements moved to top)
+
+    function formatTime(seconds) {
+      if (isNaN(seconds) || seconds === Infinity) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // --- Load and play a track by index ---
+    async function loadTrack(index) {
+      if (index < 0 || index >= playlist.length) return;
+      currentIndex = index;
+      const filePath = playlist[index];
+
+      // Load metadata
+      const meta = await ipcRenderer.invoke('read-metadata', filePath);
+
+      const newTitle = meta.title || 'Unknown';
+      musicTitle.textContent = newTitle;
+
+      musicImage.classList.add('playing');
+      progressBar.classList.add('has-track');
+      musicTitleContainer.classList.add('show');
+
+      // Toggle marquee animation if title overflows
+      musicTitle.classList.remove('marquee');
+      musicTitleContainer.classList.remove('overflowing');
+      musicTitle.style.removeProperty('--scroll-amount');
+      musicTitle.style.animationDuration = '';
+      setTimeout(() => {
+        const containerWidth = musicTitleContainer.clientWidth - 32; // Dynamic width minus padding (16px left/right)
+        const overflow = musicTitle.scrollWidth - containerWidth;
+        if (overflow > 0) {
+          const scrollAmount = overflow + 15; // Scroll 15px past the end for spacing
+          musicTitle.style.setProperty('--scroll-amount', `-${scrollAmount}px`);
+
+          // Calculate dynamic duration for a constant, readable scroll speed
+          const duration = (scrollAmount / 25) + 4; // 25px per second, plus 4s of pause time
+          musicTitle.style.animationDuration = `${duration}s`;
+
+          musicTitleContainer.classList.add('overflowing');
+          musicTitle.classList.add('marquee');
+        }
+      }, 50);
+
+      // Album art
+      if (meta.artwork && meta.artwork.length > 100) {
+        musicImage.style.backgroundImage = `url('${meta.artwork}')`;
+        musicImage.style.backgroundSize = 'cover';
+        musicImage.style.backgroundPosition = 'center';
+        musicImage.style.backgroundRepeat = 'no-repeat';
+        musicImage.classList.add('has-artwork');
+      } else {
+        musicImage.style.backgroundImage = '';
+        musicImage.style.background = '#E7F8F3';
+        musicImage.classList.remove('has-artwork');
+      }
+
+      // Load audio
+      audio.src = filePath;
+      audio.volume = volume;
+      audio.muted = isMuted;
+      updateProgressBar(0);
+      currentTimeEl.textContent = '0:00';
+      durationTimeEl.textContent = '0:00';
+      audio.play();
+    }
+
+    audio.addEventListener('loadedmetadata', () => {
+      durationTimeEl.textContent = formatTime(audio.duration);
+    });
+
+    // --- Progress bar update ---
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      durationTimeEl.textContent = formatTime(audio.duration);
+      if (isDragging) return;
+      updateProgressBar(audio.currentTime / audio.duration);
+    });
+
+    function updateProgressBar(ratio) {
+      const barWidth = progressBar.clientWidth;
+      const handleWidth = 26;
+      // Symmetric offset allowing handle to hang off left/right by 6px to align with rounded edges
+      const pos = -6 + ratio * (barWidth - 14);
+      progressHandle.style.left = pos + 'px';
+
+      // Align progress fill width to the center of the handle
+      const fillWidth = pos + (handleWidth / 2);
+      progressFill.style.width = fillWidth + 'px';
+    }
+
+    // --- Click-and-drag functionality for seekbar ---
+    let isDragging = false;
+
+    function handleSeek(e) {
+      if (!audio.duration) return;
+      const rect = progressBar.getBoundingClientRect();
+      let pct = (e.clientX - rect.left) / rect.width;
+      pct = Math.max(0, Math.min(1, pct)); // Clamp between 0 and 1
+      updateProgressBar(pct);
+      return pct;
+    }
+
+    progressBar.addEventListener('mousedown', (e) => {
+      if (!audio.duration) return;
+      isDragging = true;
+      const pct = handleSeek(e);
+      currentTimeEl.textContent = formatTime(pct * audio.duration);
+
+      const onMouseMove = (moveEvent) => {
+        const currentPct = handleSeek(moveEvent);
+        currentTimeEl.textContent = formatTime(currentPct * audio.duration);
+      };
+
+      const onMouseUp = (upEvent) => {
+        const finalPct = handleSeek(upEvent);
+        audio.currentTime = finalPct * audio.duration;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+
+    // --- Track ended ---
+    audio.addEventListener('ended', () => {
+      if (isRepeat) {
+        audio.currentTime = 0;
+        audio.play();
+      } else if (isShuffle) {
+        const next = Math.floor(Math.random() * playlist.length);
+        loadTrack(next);
+      } else if (currentIndex < playlist.length - 1) {
+        loadTrack(currentIndex + 1);
+      }
+    });
+
+    // --- Play button ---
+    document.getElementById('play-btn').addEventListener('click', () => {
+      if (playlist.length === 0) {
+        openFilePicker();
+        return;
+      }
+      if (audio.paused) audio.play();
+    });
+
+    // --- Pause button ---
+    document.getElementById('pause-btn').addEventListener('click', () => {
+      audio.pause();
+    });
+
+    // --- Next button ---
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (playlist.length === 0) return;
+      if (isShuffle) {
+        loadTrack(Math.floor(Math.random() * playlist.length));
+      } else {
+        loadTrack((currentIndex + 1) % playlist.length);
+      }
+    });
+
+    // --- Previous button ---
+    document.getElementById('previous-btn').addEventListener('click', () => {
+      if (playlist.length === 0) return;
+      if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+      } else {
+        loadTrack((currentIndex - 1 + playlist.length) % playlist.length);
+      }
+    });
+
+    // --- Mute button ---
+    document.getElementById('mute-btn').addEventListener('click', () => {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+    });
+
+    // --- Volume up ---
+    document.getElementById('volume-up').addEventListener('click', () => {
+      volume = Math.min(1.0, volume + 0.1);
+      audio.volume = volume;
+    });
+
+    // --- Volume down ---
+    document.getElementById('volume-down').addEventListener('click', () => {
+      volume = Math.max(0.0, volume - 0.1);
+      audio.volume = volume;
+    });
+
+    // --- Repeat button ---
+    document.getElementById('repeat-btn').addEventListener('click', () => {
+      isRepeat = !isRepeat;
+      const repeatPath = document.querySelector('.repeat-btn path');
+      if (repeatPath) repeatPath.setAttribute('fill', isRepeat ? '#4A9FCC' : '#74C3EE');
+    });
+
+    // --- Shuffle button ---
+    document.getElementById('shuffle-btn').addEventListener('click', () => {
+      isShuffle = !isShuffle;
+      const shuffleCircle = document.querySelector('.shuffle-btn circle');
+      if (shuffleCircle) shuffleCircle.setAttribute('fill', isShuffle ? '#55AA00' : '#77D124');
+      const shuffleRect = document.querySelector('.shuffle-btn rect');
+      if (shuffleRect) shuffleRect.setAttribute('fill', isShuffle ? '#55AA00' : '#77D124');
+    });
+
+    // --- Open file picker (via playlist icon) ---
+    async function openFilePicker() {
+      const filePath = await ipcRenderer.invoke('open-file-dialog');
+      if (!filePath) return;
+
+      // Scan the entire folder and load all audio files as the playlist
+      const folderSongs = await ipcRenderer.invoke('get-folder-songs', filePath);
+      playlist = folderSongs;
+      currentIndex = playlist.indexOf(filePath);
+      if (currentIndex === -1) currentIndex = 0;
+      loadTrack(currentIndex);
+    }
+
+    document.getElementById('playlist-btn').addEventListener('click', openFilePicker);
+  </script>
+</body>
+
+</html>
